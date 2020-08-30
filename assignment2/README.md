@@ -20,7 +20,7 @@ Objective function에 따라서 현재 노드를 기준으로 이웃 노드를 �
 ## 2. 코드 설명  
   구체적인 설명은 주석으로 표기하였고 여기서는 간단한 틀에 대해서만 서술하였다.  
   먼저 Position 클래스는 queen의 위치를 저장하기 위해서 배열을 활용할 때 사용하였으며,  
-```{.c++}
+```c++
 	class Position{
 	//column마다 저장되어있는 queen의 위치를 row에 저장함(배열로 전체 queen의 위치 저장)
 	private int row;
@@ -53,7 +53,7 @@ Objective function에 따라서 현재 노드를 기준으로 이웃 노드를 �
 답이 존재하는 경우에는 초기 상태를 지정해주었다.  
 초기 상태는 다음과 같이 랜덤으로 지정 하였으며,  
  	
-```{.c++}
+```c++
 	Position[] curState=new Position[nV];
 	    	curState=initial_state();
 	    	
@@ -72,7 +72,7 @@ Objective function에 따라서 현재 노드를 기준으로 이웃 노드를 �
 메인문에서는 위와 같이 heuristic 값이 0인 경우 종료시키고 아닌 경우에는 다음 state로 이동했다.  
 다음 상태로 이동하는 경우는 아래와 같이 nextState 메소드를 이용하였는데,  
 
-```{.c++} 	
+```c++ 	
 	public static Position[] nextState (Position[] curState) {
         Position[] nextState = new Position[nV]; // 다음 state의 queen의 위치를 저장할 공간 
         
@@ -121,7 +121,7 @@ Objective function에 따라서 현재 노드를 기준으로 이웃 노드를 �
 부분적으로 살펴보면,  
 먼저, nextState에 현재 상태의 queen의 위치를 복사하였고,  
 
-```{.c++}
+```c++
    for (int i=0; i<nV; i++) {//Column
             for (int j=0; j<nV; j++) {//Row
             	//현재 curState값과 같으면 continue;
@@ -147,7 +147,7 @@ Objective function에 따라서 현재 노드를 기준으로 이웃 노드를 �
 queen을 옮기는 데에는 changeRow 메소드를 정의하여 이용했다. 
 이때 값 중에 가장 작은 값을 better에 저장했다. 
 
-```{.c++}
+```c++
     if (better < cur_eval) {
         	heuristic = better;
             nextState[changedColumn].changeRow(changedRow);
@@ -163,7 +163,7 @@ nextState를 그 상태로 이동하였고,
 아닌 경우는 다시 랜덤으로 초기화하여 처음부터 시작하였다.  
 
 heuristicFunc은 아래와 같이 정의하였는데,  
-```{.c++}
+```c++
     public static int heuristicFunc(Position[] state) {
         int heuristic = 0;
         for (int i = 0; i< nV; i++) {
@@ -180,7 +180,7 @@ heuristicFunc은 아래와 같이 정의하였는데,
 모든 쌍에 대해서, 공격이 가능한 위치의 경우 heuristic 값을 1씩 증가시켰다.  
 
 isAttack 메소드는 
-```{.c++}
+```c++
 public static boolean isAttack(Position x, Position y) {  
     	if(x.getRow() == y.getRow() || x.getColumn() == y.getColumn() || 
     	(Math.abs(x.getColumn()-y.getColumn()) == Math.abs(x.getRow()-y.getRow())))
