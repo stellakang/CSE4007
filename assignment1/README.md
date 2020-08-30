@@ -1,4 +1,4 @@
-Programming Assignment1 : DFS, BFS, DFSID (2016025096 강수진)
+Programming Assignment1 : DFS, BFS, DFSID   
 =================================== 
 
 ## 1. 문제 정의  
