@@ -3,7 +3,7 @@ Programming Assignment4 : SAT Solver
 
 ## 1. 개요    
 
-### 1.1. SAT-solver  
+### 1.1 SAT-solver  
 주어진 boolean formula 를 충족시키는 interpretation이 존재하는가를 결정하는 문제입니다.  
 존재하는 경우 -> 해당 formula는 satisfiable 하다고 판단   
 존재하지 않는 경우 -> 해당 formula는 unsatisfiable 하다고 판단  
@@ -13,7 +13,7 @@ boolean expression의 특성을 이용하여 검증하게 됩니다.
 
 여기서는 SAT solver z3을 통해 해를 구하였으며 python3으로 작성했습니다.  
 
-### 1.2. Symbol, formula 정의     
+### 1.2 Symbol, formula 정의     
 
 Symbol  
 X[i] : i열에 queen의 위치를 저장하도록 했습니다.  
@@ -34,7 +34,7 @@ i, j에 대해서 (0~N-1) i와 j가 다르면 서로 대각선 상에 있으면 
 
 
 ## 2. 코드 구현  
-```{.python}
+```python
 
 start = time.time()
 # Variables to assign positions of queens each column
@@ -55,7 +55,7 @@ eight_queens_c = domain + con1 + con2 + con3
 
 위와 같이 constraint를 명시하고(자세한 설명은 symbol, formula부분에서 서술했습니다. )
 
-```{.python}
+```python
 if s.check() == sat: # if it is satisfiable
     m = s.model()
     r = [m.evaluate(X[i]) for i in range(N)]
@@ -64,7 +64,7 @@ if s.check() == sat: # if it is satisfiable
 ```
 답이 존재하는 경우에는 위와 같이 답을 출력해주고 소요된 시간을 출력 했으며  
 
-```{.python}
+```python
 else: # if it is unsatisfiable
     print("No solution")
     print("elapsed time: 0.0")
