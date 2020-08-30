@@ -1,4 +1,4 @@
-Programming Assignment2 : Hill Climbing Algorithm (2016025096 강수진)
+Programming Assignment2 : Hill Climbing Algorithm  
 =================================== 
 
 ## 1. 알고리즘에 대한 설명 및 objective function  
