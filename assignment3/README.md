@@ -1,4 +1,4 @@
-Programming Assignment3 : Genetic Algorithm (2016025096 강수진)
+Programming Assignment3 : Genetic Algorithm  
 =================================== 
 
 ## 1. 개요    
