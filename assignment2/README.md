@@ -1,8 +1,4 @@
-#Comment 
-현재는 2번 과제이므로 다음 번 과제를 할 때에는
-제목을 작성하는데 유의하시길 바랍니다.
-
-Programming Assignment1 : DFS, BFS, DFSID (2016025096 강수진)
+Programming Assignment2 : Hill Climbing Algorithm (2016025096 강수진)
 =================================== 
 
 ## 1. 알고리즘에 대한 설명 및 objective function  
