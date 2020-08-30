@@ -32,7 +32,7 @@ Programming Assignment1 : DFS, BFS, DFSID
   구체적인 설명은 주석으로 표기하였고 여기서는 간단한 틀에 대해서만 서술하였다.  
   공통적으로 dfs, bfs, dfsid가 가지고 있는 요소(변수, 메소드)를 포함하여 Graph 클래스를 생성한 후, 상속했다.  
   Graph 클래스에서는, 아래와 같이   
-```{.c++}
+```c++
 	int nV; // 정점의 개수
 	int[] position; // row마다 queen의 위치(index)
 	boolean haveSolution=false; // 답의 존재 여부(존재하면 true, 존재 안하면 false)
@@ -41,7 +41,7 @@ Programming Assignment1 : DFS, BFS, DFSID
   를 멤버변수로 선언하였고,   
   
   아래와 같이 답을 출력하기 위한 메소드와,  	
-```{.c++}
+```c++
 	public void printResult() { //답이 존재할 경우에는 이 메소드 호출하여 queen의 위치 출력 
 		try {
 			NQueenProblem.bs.write(("Location : ").getBytes());
@@ -67,7 +67,7 @@ Programming Assignment1 : DFS, BFS, DFSID
 ```  
 goal test를 위한 메소드 2가지를(아래와 같이 인자에 따라 달리 호출) 생성하였다.  
 각 position을 -1로 초기화했기 때문에 1) -1인 경우, 2)다른 position과 같은 row에 있는 경우, 3)대각선으로 만나는 경우 false를 반환했다.    
-```{.c++} 	
+```c++ 	
 	public boolean isSolution() { //저장된 queen의 position값을 이용하여 n개의 queen이 서로 공격하지 않는지 체크 
 		for(int i=1;i<=this.nV;i++) {
 			if(position[i]==-1)return false;
@@ -101,11 +101,11 @@ goal test를 위한 메소드 2가지를(아래와 같이 인자에 따라 달�
   
 ### 1.1. DFS  
 DFS에서는 DfsGraph 클래스를 정의하여 Graph 클래스를 상속하도록 했고,  
-```{.c++}
+```c++
    class DfsGraph extends Graph{//DFS 수행을 위한 class(Graph class 상속)
 ```  
   dfs() 메소드를 호출하면 그래프를 탐색하는 dfsFunc을 내부에서 호출하도록 구현했다.  
-```{.c++}
+```c++
     public void dfs() { //dfsFunc 실행하는 메소드 
     	haveSolution=false;
     	beforeTime = System.currentTimeMillis(); //실행 전 시간 측정 
@@ -148,7 +148,7 @@ DFS에서는 DfsGraph 클래스를 정의하여 Graph 클래스를 상속하도�
     }
     ```  
   그리고 dfsFunc은 재귀적으로 호출하도록 하여, goal test를 만족하는 경우에는 true를, 만족하지 않는 경우에는 false를 반환하도록 했다.  
-```{.c++}
+```c++
     public boolean dfsFunc(int row, int column) { // 그래프 탐색 (재귀호출)
         this.position[column]=row; //현재 column의 queen의 위치 업데이트 
         if(column==this.nV) {//모든 column에 대해 queen의 위치 업데이트한 경우 답의 조건에 맞는지 isSolution() 호출 
@@ -169,13 +169,13 @@ DFS에서는 DfsGraph 클래스를 정의하여 Graph 클래스를 상속하도�
 ### 1.2. BFS  
   
 BFS에 대해서는 BfsGraph 클래스를 정의하였고 Graph 클래스를 상속하였으며, queue를 멤버변수로 추가했다.  
-```{.c++}
+```c++
 class BfsGraph extends Graph{//BFS 수행을 위한 class(Graph class 상속)
 	Queue<Triple> queue = new LinkedList<Triple>();//queue 선언 
 ```  
 bfs() 메소드를 정의하였으며 이 메소드를 호출하면, 전체 그래프를 bfs로 탐색하며 bfsFunc을 호출한다.  
   
-```{.c++}
+```c++
     public void bfs() {//bfsFunc 실행하는 메소드 
     	haveSolution=false;
     	beforeTime = System.currentTimeMillis();//실행 전 시간 측정
@@ -220,7 +220,7 @@ bfs() 메소드를 정의하였으며 이 메소드를 호출하면, 전체 그�
     }
   ```     
   그리고 bfsFunc은 아래와 같이 queue가 빌 때까지 탐색하며 답을 찾으면 종료한다.  
-```
+```c++
     public boolean bfsFunc() {// 그래프 탐색 
         
         while(!queue.isEmpty()) { //queue가 빌 때까지 실행 
@@ -252,11 +252,11 @@ bfs() 메소드를 정의하였으며 이 메소드를 호출하면, 전체 그�
 ### 1.3. DFSID  
   
 DFSID에 대해서는 DfsIdGraph 클래스를 정의하였고, Graph를 상속한다. 
-```{.c++}
+```c++
 class DfsIdGraph extends Graph{//DFSID 수행을 위한 class(Graph class 상속)
 ```  
 그리고, dfsid 메소드는 깊이를 1부터 1씩 늘려가면서 해당 깊이까지 dfs를 실행하며, 이때 dfsidFunc을 호출한다.  
-```{.c++} 
+```c++ 
     public void dfsid() {//dfsidFunc 실행하는 메소드 
     	beforeTime = System.currentTimeMillis();//실행 전 시간 측정 
     	for(int d=1;d<=this.nV;d++) {//깊이 d를 1씩 증가시킴에 따라 dfs실행 
@@ -303,7 +303,7 @@ class DfsIdGraph extends Graph{//DFSID 수행을 위한 class(Graph class 상속
     }
 ```  
 dfsidFunc은 재귀적으로 호출되며, 지정된 깊이를 만족하는 경우 goal test를 통해서 올바른 답을 찾는다.  
-```
+```c++
     public boolean dfsidFunc(int row, int column, int depth) { // 그래프 탐색
 
         this.position[column]=row;//현재 column의 queen의 위치 업데이트 
