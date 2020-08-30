@@ -1,4 +1,4 @@
-Programming Assignment4 : SAT Solver (2016025096 강수진)
+Programming Assignment4 : SAT Solver  
 =================================== 
 
 ## 1. 개요    
