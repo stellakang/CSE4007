@@ -60,20 +60,20 @@ mutation을 진행하는 메소드 입니다.
 
 * public void initFirstGen()  
 ```c++ 
-        public void initFirstGen() {
-		Random rand = new Random();
-                 int[] random_pos=new int[nV];
-		for(int i=0;i<POPULATION;i++) {
-			for(int j=0;j<nV;j++) {
-				int num=rand.nextInt(nV);
-				random_pos[j]=num;
-			}//랜덤으로 정한 후, 
-			Collections.shuffle(Arrays.asList(random_pos));// shuffle을 통해 랜덤으로 섞어주는 과정 
-			for(int j=0;j<nV;j++)
-				currentGen[i][j]=random_pos[j];// 현재 세대에 추가 
-		}
-		
+public void initFirstGen() {
+	Random rand = new Random();
+	 int[] random_pos=new int[nV];
+	for(int i=0;i<POPULATION;i++) {
+		for(int j=0;j<nV;j++) {
+			int num=rand.nextInt(nV);
+			random_pos[j]=num;
+		}//랜덤으로 정한 후, 
+		Collections.shuffle(Arrays.asList(random_pos));// shuffle을 통해 랜덤으로 섞어주는 과정 
+		for(int j=0;j<nV;j++)
+			currentGen[i][j]=random_pos[j];// 현재 세대에 추가 
 	}
+
+}
 ```  
 random_pos 배열에 nextInt(nV) 를 호출하여 각각 랜덤한 퀸의 위치를 인덱스로 저장했습니다.  
 0부터 nV-1 중에서 랜덤한 값을 저장합니다.  
@@ -81,103 +81,103 @@ random_pos 배열에 nextInt(nV) 를 호출하여 각각 랜덤한 퀸의 위치
 
 * public void next_Generation()  
 ```c++ 
-        //다음 세대를 정하는 메소드 
-	public void next_Generation(){
-		Random rand = new Random();
-		//System.out.println(currentGen.size());
-		tourna_Selection(); // 부모를 정한다.
+//다음 세대를 정하는 메소드 
+public void next_Generation(){
+	Random rand = new Random();
+	//System.out.println(currentGen.size());
+	tourna_Selection(); // 부모를 정한다.
+	//System.out.println("size : "+nextGen.size());
+
+	for(int i=POPULATION/10;i<POPULATION;i++) {
 		//System.out.println("size : "+nextGen.size());
-		
-		for(int i=POPULATION/10;i<POPULATION;i++) {
-			//System.out.println("size : "+nextGen.size());
-			int firstIndx=rand.nextInt(POPULATION/10);
-			int secondIndx=rand.nextInt(POPULATION/10);
-			
-			// 서로 다른 부모로 선정 
-			while(firstIndx==secondIndx) {
-				firstIndx=rand.nextInt(POPULATION/10);
-				secondIndx=rand.nextInt(POPULATION/10);
-			}
-			
-			int[] crossover_mutation=new int[nV];
-			//크로스오버 메소드 실행 
-			crossover_mutation=crossOverFunc(firstIndx, secondIndx);
-			//뮤테이션 메소드 실행 
-			crossover_mutation=mutationFunc(crossover_mutation);
-			
-			//부모로 추가 
-			nextGen[i]=crossover_mutation;
+		int firstIndx=rand.nextInt(POPULATION/10);
+		int secondIndx=rand.nextInt(POPULATION/10);
+
+		// 서로 다른 부모로 선정 
+		while(firstIndx==secondIndx) {
+			firstIndx=rand.nextInt(POPULATION/10);
+			secondIndx=rand.nextInt(POPULATION/10);
 		}
-	}  
+
+		int[] crossover_mutation=new int[nV];
+		//크로스오버 메소드 실행 
+		crossover_mutation=crossOverFunc(firstIndx, secondIndx);
+		//뮤테이션 메소드 실행 
+		crossover_mutation=mutationFunc(crossover_mutation);
+
+		//부모로 추가 
+		nextGen[i]=crossover_mutation;
+	}
+}  
 ```
 * public void tourna_Selection()  
 부모를 선정하는 메소드로  코드는 아래와 같습니다. 
 
 ```c++ 
-        double BestOrTournament=Math.random();
+double BestOrTournament=Math.random();
 ```  
 위와 같이 난수를 발생시켜 두가지 상황으로 나누어서 부모를 선정했습니다.  
 0.5보다 작은 경우에는  
 적합한 것을 선정할지 적합하지 않은 것을 선택할지 난수를 발생하여 정하였고,  
 ```c++   
-        if(BestOrTournament<0.5) {// 좋은 것을 선정할지 상대적으로 나쁜 것을 선정할지 정한다. 
-		int indx=rand.nextInt(POPULATION);// 한가지 먼저 선택 
-		max=fitnessFunc(intToPosition(currentGen[indx]));
-		max_indx=indx;
-		for(int j=1;j<TOURNAMENT_SELECTION;j++) { 
+if(BestOrTournament<0.5) {// 좋은 것을 선정할지 상대적으로 나쁜 것을 선정할지 정한다. 
+	int indx=rand.nextInt(POPULATION);// 한가지 먼저 선택 
+	max=fitnessFunc(intToPosition(currentGen[indx]));
+	max_indx=indx;
+	for(int j=1;j<TOURNAMENT_SELECTION;j++) { 
+		indx=rand.nextInt(POPULATION);
+		// 한번도 뽑히지 않았던 부모로 선정 
+		while(selected[indx]==true) {
 			indx=rand.nextInt(POPULATION);
-			// 한번도 뽑히지 않았던 부모로 선정 
-			while(selected[indx]==true) {
-				indx=rand.nextInt(POPULATION);
-			}
-			
-			int fitnum=fitnessFunc(intToPosition(currentGen[indx]));
-			double chooseGoodOrBad=Math.random();// 난수 생성 
-			
-			//난수 생성해서 CRITERIA보다 크면 좋은거 선택, 작으면 나쁜거 선택 
-			if((fitnum>max && chooseGoodOrBad>CRITERIA) || (fitnum<max && chooseGoodOrBad<CRITERIA)) {
-					max=fitnum;
-					max_indx=indx;
-			}
+		}
+
+		int fitnum=fitnessFunc(intToPosition(currentGen[indx]));
+		double chooseGoodOrBad=Math.random();// 난수 생성 
+
+		//난수 생성해서 CRITERIA보다 크면 좋은거 선택, 작으면 나쁜거 선택 
+		if((fitnum>max && chooseGoodOrBad>CRITERIA) || (fitnum<max && chooseGoodOrBad<CRITERIA)) {
+				max=fitnum;
+				max_indx=indx;
 		}
 	}
+}
 ```
 0.5보다 크거나 같은 경우에는 아래와 같이 가장 좋은 것을 선정하도록 했습니다.  
 ```c++   
-          else {// 무조건 좋은 것을 선정한다.
-	        for(int j=0;j<TOURNAMENT_SELECTION;j++) {
-		        int indx=rand.nextInt(POPULATION);
-					
-		        while(selected[indx]==true) {
-		    	      indx=rand.nextInt(POPULATION);
-		        }
-		        int fitnum=fitnessFunc(intToPosition(currentGen[indx]));
-		        if(fitnum>max) {
-			    max=fitnum;
-			    max_indx=indx;
-		        }
-	        }			
-        }
+  else {// 무조건 좋은 것을 선정한다.
+	for(int j=0;j<TOURNAMENT_SELECTION;j++) {
+		int indx=rand.nextInt(POPULATION);
+
+		while(selected[indx]==true) {
+		      indx=rand.nextInt(POPULATION);
+		}
+		int fitnum=fitnessFunc(intToPosition(currentGen[indx]));
+		if(fitnum>max) {
+		    max=fitnum;
+		    max_indx=indx;
+		}
+	}			
+}
 ```
 또한 중복으로 부모를 선정하는 것을 막기 위해서  
 ```c++ 
-          for(int i=0;i<POPULATION;i++)
-	         selected[i]=false;
+for(int i=0;i<POPULATION;i++)
+    selected[i]=false;
 ```  
 선정되는 것은 true로 변경하는 배열을 선언했고 위와 같이 초기화 했습니다.  
 
 * public int hasMostFit()  
 ```c++ 
-        // 현재 세대에서 솔루션을 찾았으면 해당 인덱스 반환 (아니면 -1)
-	public int hasMostFit() {
-		for(int i=0;i<POPULATION;i++) {
-			int fitnessnum=fitnessFunc(intToPosition(currentGen[i]));
-			//System.out.println("fitness num "+ fitnessnum);
-			if(fitnessnum==MOSTFIT)
-				return i;
-		}
-		return -1;
+// 현재 세대에서 솔루션을 찾았으면 해당 인덱스 반환 (아니면 -1)
+public int hasMostFit() {
+	for(int i=0;i<POPULATION;i++) {
+		int fitnessnum=fitnessFunc(intToPosition(currentGen[i]));
+		//System.out.println("fitness num "+ fitnessnum);
+		if(fitnessnum==MOSTFIT)
+			return i;
 	}
+	return -1;
+}
 ```  
 현재 세대의 모든 개체에 대해서 fitnessFunction값을 계산하고 이 값이 찾고자하는 개체의 fitness값과 일치하면 이를 출력하고 종료하도록 했습니다.   
 적합한 개체를 찾았으면 해당 인덱스를 반환하도록 했고 아닌 경우에는 -1을 반환하여 다음 세대로 넘어갈 수 있도록 했습니다.  
@@ -187,19 +187,19 @@ random_pos 배열에 nextInt(nV) 를 호출하여 각각 랜덤한 퀸의 위치
 position 인자의 퀸의 위치에 대한 fitness값을 리턴하는 메소드 입니다.  
 공격이 불가능한 경우에는 이 값을 하나씩 증가 시켰다.   
 ```c++ 
-          public int fitnessFunc(Position[] position) {
-	      int fitnessNum=0;
-		
-	      for (int i = 0; i< nV; i++) {
-                  for (int j=i+1; j<nV; j++ ) {
-                 	//모든 쌍에 대해서 서로 공격이 불가능한 위치인 경우 하나 증가 시킨다. 
-                      if (isAttack(position[i],position[j])==false) {
-                          fitnessNum++;
-                      }
-                  }
-              }
-              return fitnessNum;
-        }
+  public int fitnessFunc(Position[] position) {
+      int fitnessNum=0;
+
+      for (int i = 0; i< nV; i++) {
+	  for (int j=i+1; j<nV; j++ ) {
+		//모든 쌍에 대해서 서로 공격이 불가능한 위치인 경우 하나 증가 시킨다. 
+	      if (isAttack(position[i],position[j])==false) {
+		  fitnessNum++;
+	      }
+	  }
+      }
+      return fitnessNum;
+}
 ```  
 * public int[] crossOverFunc(int first, int second)  
 1-point cross over를 시행하는 메소드 입니다.  
@@ -208,24 +208,24 @@ position 인자의 퀸의 위치에 대한 fitness값을 리턴하는 메소드 
 해당 숫자부터 끝까지 값을 mother로 바꾸어 father에 저장하며 이는 곧 생성된 자식 개체가 됩니다.  
 이를 반환하게 됩니다.  
 ```c++ 
-        //부모 중에서 first, second 인덱스를 갖는 부모를 이용하여 crossOver를 하는 메소드 
-	public int[] crossOverFunc(int first, int second) {
-		Random rand = new Random();
-		int[] father=new int[nV];
-		int[] mother=new int[nV];
-		
-		for(int i=0;i<nV;i++) {
-			father[i]=nextGen[first][i];
-			mother[i]=nextGen[second][i];
-		}
-		
-		//father에 생성할 자식을 저장하여 반환 (point부터 끝까지를 mother로 바꿈) 
-		int point=rand.nextInt(nV-1)+1;// 자리 바꿀 위치 선정 - (1..nV-1) 범위로 선정 
-		for(int i=point;i<nV;i++) {
-			father[i]=mother[i];
-		}
-		return father;//생성된 자식 반환 
+//부모 중에서 first, second 인덱스를 갖는 부모를 이용하여 crossOver를 하는 메소드 
+public int[] crossOverFunc(int first, int second) {
+	Random rand = new Random();
+	int[] father=new int[nV];
+	int[] mother=new int[nV];
+
+	for(int i=0;i<nV;i++) {
+		father[i]=nextGen[first][i];
+		mother[i]=nextGen[second][i];
 	}
+
+	//father에 생성할 자식을 저장하여 반환 (point부터 끝까지를 mother로 바꿈) 
+	int point=rand.nextInt(nV-1)+1;// 자리 바꿀 위치 선정 - (1..nV-1) 범위로 선정 
+	for(int i=point;i<nV;i++) {
+		father[i]=mother[i];
+	}
+	return father;//생성된 자식 반환 
+}
 ```
 
 * public int[] mutationFunc(int[] child)  
@@ -233,78 +233,78 @@ mutation 실행 횟수는 (MUTATION_NUM에 저장된 값+1) 만큼 실행됩니�
 숫자는 조절이 가능하며 해당 횟수만큼 랜덤으로 point값을 정하여 랜덤으로 생성된 s로 바꾸었습니다.  
 다만, 이때 s와 child[point]의 값이 같으면 mutation의 의미가 없기 때문에 달라질 때까지 랜덤으로 값을 받아왔습니다.  
 ```c++ 
-        // first, second 값을 갖는 부모를 이용해서 뮤테이션 실행 
-	public int[] mutationFunc(int[] child) {
-		Random rand = new Random();
-		int num=nV/3;//mutation 실행 횟수 설정 
-		int arr[]=new int[nV];
-		for(int i=0;i<nV;i++)
-			arr[i]=child[i];
-		
-		//해당 횟수만큼 mutation 실행 
-		while(num>=0) {
-			int point=rand.nextInt(nV);
-			int s=rand.nextInt(nV);
-			//생성된 난수값이 현재 child의 값과 다르도록 선정(변화가 있도록) 
-			while(s==child[point]) {
-				s=rand.nextInt(nV);	
-			}
-			arr[point]=s;
-			num--;
+// first, second 값을 갖는 부모를 이용해서 뮤테이션 실행 
+public int[] mutationFunc(int[] child) {
+	Random rand = new Random();
+	int num=nV/3;//mutation 실행 횟수 설정 
+	int arr[]=new int[nV];
+	for(int i=0;i<nV;i++)
+		arr[i]=child[i];
+
+	//해당 횟수만큼 mutation 실행 
+	while(num>=0) {
+		int point=rand.nextInt(nV);
+		int s=rand.nextInt(nV);
+		//생성된 난수값이 현재 child의 값과 다르도록 선정(변화가 있도록) 
+		while(s==child[point]) {
+			s=rand.nextInt(nV);	
 		}
-		
-		return arr;
+		arr[point]=s;
+		num--;
 	}
+
+	return arr;
+}
 ```  
 
   메인 메소드의 코드를 살펴보면 아래와 같습니다.  
 ```c++   
-          //답이 없는 경우 
-	  if(n==2 || n==3) {
-		try {
-    			bs.write("No solution\nTotal Elapsed Time : 0.0\n".getBytes());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	 }  
+  //답이 없는 경우 
+  if(n==2 || n==3) {
+	try {
+		bs.write("No solution\nTotal Elapsed Time : 0.0\n".getBytes());
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+ }  
 ```  
 답이 없는 경우에는 따로 처리를 하였고  
 
 답이 있는 경우에는  
 무한 루프가 도는 것을 막기 위해 최대 생성 세대수를  
 ```c++ 
-          int generationNum=10000;//무한 루프를 막기 위한 생성 세대수 제한 
+int generationNum=10000;//무한 루프를 막기 위한 생성 세대수 제한 
 ```
 설정해두고 실행했습니다. 
 코드의 일부를 살펴보면 먼저 initFirstGen() 메소드를 호출하여 첫 세대를 생성 하였고  
 ```c++ 
-          else {// 답이 존재하는 경우 
-			beforeTime = System.currentTimeMillis(); //실행 전 시간 측정 
-			GA_nqueen ga=new GA_nqueen(n);
-			ga.initFirstGen();
-			int cnt=0;//답을 찾기 까지 생성된 세대수 
-			int generationNum=10000;//무한 루프를 막기 위한 생성 세대수 제한 
-			
-			while(generationNum>0) {
-				cnt++;
-				//System.out.println(cnt);
-				int success=ga.hasMostFit();
-				//답이 존재하는 경우 
-				if(success!=-1) {
-					afterTime = System.currentTimeMillis(); //실행 후 시간 측정 
+  else {// 답이 존재하는 경우 
+		beforeTime = System.currentTimeMillis(); //실행 전 시간 측정 
+		GA_nqueen ga=new GA_nqueen(n);
+		ga.initFirstGen();
+		int cnt=0;//답을 찾기 까지 생성된 세대수 
+		int generationNum=10000;//무한 루프를 막기 위한 생성 세대수 제한 
+
+		while(generationNum>0) {
+			cnt++;
+			//System.out.println(cnt);
+			int success=ga.hasMostFit();
+			//답이 존재하는 경우 
+			if(success!=-1) {
+				afterTime = System.currentTimeMillis(); //실행 후 시간 측정 
 ```
 
 이후에 답이 존재하는 경우에는 종료를 하고  
 답이 존재하지 않는 경우에는 아래와 같이  
 next_Generation() 메소드를 호출하였습니다.  
 ```c++ 
-          ga.next_Generation();// 다음 세대 선정 
-	  // 다음세대를 현재 세대로 변경 
-	  for(int i=0;i<POPULATION;i++) {
-		ga.currentGen[i]=ga.nextGen[i];
-	  }
-          generationNum--;
+  ga.next_Generation();// 다음 세대 선정 
+  // 다음세대를 현재 세대로 변경 
+  for(int i=0;i<POPULATION;i++) {
+	ga.currentGen[i]=ga.nextGen[i];
+  }
+  generationNum--;
 
 ```
 ## 3. 실행 결과  
