@@ -192,6 +192,7 @@ public static boolean isAttack(Position x, Position y) {
   
 ## 3. 실행 결과  
 > 스크린샷 누락  
+
  입력되는 n값에 따라 생성된 txt파일의 결과를 스크린샷으로 첨부하였다.  
 random restart를 몇 번하는지에 대해서도 출력했다.  
 
