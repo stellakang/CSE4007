@@ -191,53 +191,31 @@ public static boolean isAttack(Position x, Position y) {
 같은 행이나 열에 queen이 있거나 같은 대각선상에 queen이 있는 경우 true를 return 하도록 했다.  
   
 ## 3. 실행 결과  
+> 스크린샷 누락  
  입력되는 n값에 따라 생성된 txt파일의 결과를 스크린샷으로 첨부하였다.  
 random restart를 몇 번하는지에 대해서도 출력했다.  
 
-* n=8 일때,  
-![image](/uploads/91c1d8140a493be7c1c9da3ddc14b6ad/image.png)
-
-* n=20 일때,
-![image](/uploads/0cf822946403f873469f47472f217a85/image.png)
-
-* n=30 일때,  
-![image](/uploads/89379ed6c767f00c16a3695a2c044ded/image.png)
-
-* n=40 일때, 
-![image](/uploads/03266420c1ebf614b7094958763abe79/image.png)  
-
-* n=50 일때,  
-
-
 ## 4. 결과 분석  
-
+> 스크린샷 누락  
 코드를 수정하여 각 n에 대하여 50번씩 실행했을 때 random restart 의 평균값을 구하도록 하였다. 
 각 n에 대하여 50번씩 실행했을 때 random restart의 평균값은 다음과 같다.  
 
 * n=1 : 0번  
-![image](/uploads/3aad328502e38441fb5f4dada9b8ddac/image.png)
 
 * n=2 : no solution  
 
 * n=3 : no solution  
 
 * n=4 : 1.7번  
-![image](/uploads/8fca689b2d7a358bfc77fead67ff03e4/image.png)  
 
 * n=5 : 0.46번  
-![image](/uploads/8a4e626c834090beeb96f799bea5f64b/image.png)  
 
 * n=6 : 6.86번  
-![image](/uploads/423562211fa41fe8c3f5040044bc45c3/image.png)  
 
 * n=7 : 2.88번
-![image](/uploads/eab93f398e506fbe3656c6b8c5077d58/image.png)  
-  
+
 * n=8 : 5.76번  
-![image](/uploads/c2ea36b00eae7a97007b60718f960143/image.png)  
 
 * n=9 : 5.54번  
-![image](/uploads/e5295932ad2cb7a45a1951e6baa95165/image.png)  
-
 
 n 값이 커질수록 전체적으로 random restart 하는 경우가 늘어나는 것을 알 수 있다.  
