@@ -348,6 +348,5 @@ n이 9 이후인 경우에 대해서는 java 의 heap 공간이 부족하다고 
 - dfs나 dfsid, bfs의 경우 위 조건을 만족하지 않는 경우 해당 메소드를 호출하지 않거나, 해당 원소를 queue에 넣지 않는 등의 방법을 사용하면 해결할 수 있다.   
 
 ###     4.2. 다른 방안  
-dfs, bfs, dfsid의 방법을 이용하지 않고 nqueen의 해를 구할 수 있는 방법이 있다.  
-[링크](https://en.wikipedia.org/wiki/Eight_queens_puzzle#Explicit_solutions)   
+dfs, bfs, dfsid의 방법을 이용하지 않고 nqueen의 해를 구할 수 있는 방법이 있다. [링크](https://en.wikipedia.org/wiki/Eight_queens_puzzle#Explicit_solutions)   
  
