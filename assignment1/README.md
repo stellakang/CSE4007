@@ -326,57 +326,28 @@ dfsidFunc은 재귀적으로 호출되며, 지정된 깊이를 만족하는 경�
   
   
 ## 3. 실행 결과  
+> 사진 누락  
+
  입력되는 n값에 따라 생성된 txt파일의 결과를 스크린샷으로 첨부하였다.  
-n=2일때와 n=3일 때는 해당 답이 존재하지 않았다. (no solution 출력)   
-  ![image](/uploads/d23f59fb4caa863a349be6bf5d296ecb/image.png)  
+ n=2일때와 n=3일 때는 해당 답이 존재하지 않았다. (no solution 출력)   
 
-* n=1 일때,   
-![image](/uploads/94732b122d820c7a3600813a5dc4358e/image.png)
-  
-* n=2 일때,  
-![image](/uploads/c2fb2eefc732a20dbe26191b4ec8ac47/image.png)  
- 
-* n=3 일때,  
-![image](/uploads/e73c0604bb0ebf069980a3c15696c382/image.png)  
-
-* n=4 일때,  
-![image](/uploads/ded9a32a149db433b99d5a16424719a1/image.png)  
-
-* n=5 일때,  
-![image](/uploads/9c76fa3cda3d8c35638433718a090daa/image.png)  
-  
-
-* n=6 일때,  
-![image](/uploads/c0eb571a153aa2d8c0290f801f5ac67d/image.png)  
-   
-
-* n=7 일때,  
-![image](/uploads/742d3471ecef378760bed1f3c067f436/image.png)  
-  
-
-* n=8 일때,  
-![image](/uploads/16dee36ca7ac92a5596294e631957b79/image.png)   
-  
-  
-n이 9 이후인 경우에 대해서는 java 의 heap 공간이 부족하다고 했다.  (아래 결과 이미지 첨부)
+n이 9 이후인 경우에 대해서는 java 의 heap 공간이 부족하다고 했다.  
 이 경우에는 4번의 개선점 부분에서 다루겠다. 
-![image](/uploads/7e862860142bb4f94572263c908496be/image.png)
+
 
 ## 4. 개선점 및 다른 방안  
   알고리즘적으로 메모리를 개선할 수 있는 방안에 대해 적어보았다.  
 ###     4.1. 개선점  
-  이 과제에서는 명세에 prunning을 진행하지 않는 것으로 되어 각 열별로 queen을 하나씩 넣을 수 있는 모든 경우에 대해 조사했다. 
- 이 경우에는 각 column에 대해서 queen이 하나씩 놓일 수 있다는 제한만 두었기 때문에,  
-bfs를 실행할 때, queue에 이전 경로를 저장하기 위한 메모리 공간이 크게 필요하다는 단점이 있다. 
-이를 개선하기 위해서는 prunning을 진행할 수 있는데, 
-1. 각 column에 두 개 이상의 queen이 놓일 수 없으며, 각 row에 두 개 이상의 queen이 놓일 수 없다. 
-2. 각 queen끼리 공격하지 못하게 하기 위해서는 queen끼리 나이트의 이동(한 칸 이동 + 대각선으로 한 칸 이동)으로 설명될 수 있어야 한다.  
-등의 제한을 두고 진행할 수 있다.  
-dfs나 dfsid, bfs의 경우 위 조건을 만족하지 않는 경우 해당 메소드를 호출하지 않거나, 해당 원소를 queue에 넣지 않는 등의 방법을 사용하면 해결할 수 있다.   
+- 이 과제에서는 명세에 prunning을 진행하지 않는 것으로 되어 각 열별로 queen을 하나씩 넣을 수 있는 모든 경우에 대해 조사했다. 
+- 이 경우에는 각 column에 대해서 queen이 하나씩 놓일 수 있다는 제한만 두었기 때문에, bfs를 실행할 때, queue에 이전 경로를 저장하기 위한 메모리 공간이 크게 필요하다는 단점이 있다. 
+- 이를 개선하기 위해서는 prunning을 진행할 수 있는데, 
+  1. 각 column에 두 개 이상의 queen이 놓일 수 없으며, 각 row에 두 개 이상의 queen이 놓일 수 없다. 
+  2. 각 queen끼리 공격하지 못하게 하기 위해서는 queen끼리 나이트의 이동(한 칸 이동 + 대각선으로 한 칸 이동)으로 설명될 수 있어야 한다.  
+  
+  등의 제한을 두고 진행할 수 있다.  
+- dfs나 dfsid, bfs의 경우 위 조건을 만족하지 않는 경우 해당 메소드를 호출하지 않거나, 해당 원소를 queue에 넣지 않는 등의 방법을 사용하면 해결할 수 있다.   
 
 ###     4.2. 다른 방안  
 dfs, bfs, dfsid의 방법을 이용하지 않고 nqueen의 해를 구할 수 있는 방법이 있다.  
-단순한 계산을 통해서 구할 수 있는 방법이 
-[링크](https://en.wikipedia.org/wiki/Eight_queens_puzzle#Explicit_solutions)  
-여기에 제시되어 있다.  
+[링크](https://en.wikipedia.org/wiki/Eight_queens_puzzle#Explicit_solutions)   
  
